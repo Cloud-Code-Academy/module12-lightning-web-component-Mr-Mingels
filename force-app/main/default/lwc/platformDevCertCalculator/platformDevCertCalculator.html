@@ -1,0 +1,81 @@
+<template>
+    <lightning-card title="PD1 Calculator">
+        <lightning-button variant="brand" label="Calculate" title="Calculate" onclick={calculateScore} slot="actions"></lightning-button>
+        <!-- Input Information -->
+        <div class="slds-p-horizontal_small">
+            <lightning-input 
+                type="number" 
+                name="devFundamentals" 
+                value={devFundamentalScore} 
+                label="Developer Fundamentals: 23%" 
+                onchange={handleInputChange} 
+                max="100" 
+                min="0"
+                message-when-range-overflow="Number can't be above 100"
+                message-when-range-underflow="Number can't be below 0"
+                required>
+            </lightning-input>
+            <lightning-input 
+                type="number" 
+                name="processAuto" 
+                value={processAutoScore} 
+                label="Process Automation: 30%" 
+                onchange={handleInputChange} 
+                max="100" 
+                min="0"
+                message-when-range-overflow="Number can't be above 100"
+                message-when-range-underflow="Number can't be below 0"
+                required>
+            </lightning-input>
+            <lightning-input 
+                type="number" 
+                name="userInterface" 
+                value={userInterfaceScore} 
+                label="User Interface: 25%" 
+                onchange={handleInputChange}
+                max="100" 
+                min="0"
+                message-when-range-overflow="Number can't be above 100"
+                message-when-range-underflow="Number can't be below 0"
+                required>
+            </lightning-input>
+            <lightning-input 
+                type="number" 
+                name="testDebugDeploy" 
+                value={testDebugDeployScore} 
+                label="Testing, Debugging, and Deployment: 22%" 
+                onchange={handleInputChange} 
+                max="100" 
+                min="0"
+                message-when-range-overflow="Number can't be above 100"
+                message-when-range-underflow="Number can't be below 0"
+                required>
+            </lightning-input>
+        </div>
+        <!-- Calculated Score -->
+        <div slot="footer">
+            <h1 class="slds-text-heading_large">Certification Results</h1>
+            <p class="slds-text-heading_medium slds-m-top_small">
+                Certification Score:&nbsp;
+                <span class="slds-text-color_success slds-text-heading_medium" if:true={hasPassingScore} >
+                    {certificationScore}%
+                </span>
+                <span class="slds-text-color_error slds-text-heading_medium" if:false={hasPassingScore} >
+                    {certificationScore}%
+                </span>
+            </p>
+            <!-- Previous Attempts Section -->
+            <h1 class="slds-text-heading_large slds-m-top_large">Previous Attempts</h1>
+            <lightning-tabset>
+                <lightning-tab for:each={attempts} for:item="attempt" key={attempt.id} label={attempt.id}>
+                    <c-score-information
+                        score={attempt.score}
+                        attempt-id={attempt.id}
+                        number-of-questions={numberOfQuestions}
+                        ondeleteattempt={deleteAttempt}
+                    ></c-score-information>
+                </lightning-tab>
+            </lightning-tabset>
+        </div>
+    </lightning-card>
+</template>
